@@ -38,16 +38,157 @@
                         <td>{{invoice.emissionDate | date:'dd-MM-yyyy'}}</td>
                         <td>{{invoice.paymentMethod}}</td>
                         <td>{{invoice.installments}}</td>
+                        <td>
+                          <button type="button" class="delete" title="delete invoice"
+                                  (click)="delete(invoice.id)">DEL
+                          </button>
+                          <button type="button" class="delete" title="delete invoice"
+                                  (click)="modify(invoice)">MODIFY
+                          </button>
+                        </td>
                       </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
+              <div class="invoice-body">
+                <div class="row gutters">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="table-responsive">
+                      <form (ngSubmit)="save()" [formGroup]="invoiceForm">
+                        <table class="table custom-table m-0">
+                          <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Number</th>
+                            <th>Year</th>
+                            <th>Seller Name</th>
+                            <th>Seller Piva</th>
+                            <th>Buyer Name</th>
+                            <th>Buyer Piva</th>
+                            <th>EmissionDate</th>
+                            <th>PaymentMethod</th>
+                            <th>Installments</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngIf="currentInvoice!=null">
+                            <td><input
+                              type="number"
+                              class="form-control"
+                              id="id"
+                              formControlName="id"
+                              value="{{currentInvoice.id}"
+                              #number
+                            ></td>
+                            <td><input
+                              type="number"
+                              class="form-control"
+                              id="number"
+                              formControlName="number"
+                              value="{{currentInvoice.number}"
+                              #number
+                            ></td>
+                            <td><input
+                              type="number"
+                              class="form-control"
+                              id="year"
+                              formControlName="year"
+                              value="{{currentInvoice.year}}"
+                              #year
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="sellerName"
+                              formControlName="sellerName"
+                              value="{{currentInvoice.sellerUser.name}}"
+                              #sellerName
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="sellerPiva"
+                              formControlName="sellerPiva"
+                              value="{{currentInvoice.sellerUser.piva}}"
+                              #sellerPiva
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="buyerName"
+                              formControlName="buyerName"
+                              value="{{currentInvoice.buyerUser.name}}"
+                              #buyerName
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="buyerPiva"
+                              formControlName="buyerPiva"
+                              value="{{currentInvoice.buyerUser.piva}}"
+                              #buyerPiva
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="emissionDate"
+                              formControlName="emissionDate"
+                              value="{{currentInvoice.emissionDate}}"
+                              #paymentMethod
+                            /></td>
+                            <td><input
+                              type="text"
+                              class="form-control"
+                              id="paymentMethod"
+                              formControlName="paymentMethod"
+                              value="{{currentInvoice.paymentMethod}}"
+                              #paymentMethod
+                            /></td>
+                            <td><input
+                              type="checkbox"
+                              class="form-control"
+                              id="installments"
+                              formControlName="installments"
+                              value="{{currentInvoice.installments}}"
+                              #installments
+                            ></td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <table class="table custom-table m-0">
+                          <thead>
+                          <tr>
+                            <th>Product ID</th>
+                            <th>Single Price</th>
+                            <th>Iva</th>
+                            <th>Pieces</th>
+                            <th>Expenses</th>
+                            <th>Total</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngIf="currentInvoice != null">
+                          </tr>
+                          </tbody>
+                        </table>
+                        <!--                        [disabled]="invoiceForm.invalid"-->
+                        <button type="submit" class="btn btn-primary" data-cy="submit">Save</button>
+                        <button (click)="addItem()" class="btn btn-primary">AddItems</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="invoice-footer">
+                GVG piva: xy123456789
+              </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
