@@ -24,14 +24,22 @@ export class AppComponent implements OnInit, OnDestroy {
       Validators.maxLength(50)]],
     year: ['', [Validators.required]],
     number: ['', [Validators.required]],
-    sellerName: ['', [Validators.required]],
-    sellerPiva: ['', [Validators.required]],
-    buyerName: ['', [Validators.required]],
-    buyerPiva: ['', [Validators.required]],
     emissionDate: ['', [Validators.required]],
     paymentMethod: ['', [Validators.required]],
-    installments: [false]
-    // order: ['', [Validators.required]]
+    installments: [false],
+    iban: [false],
+    buyerUser: this.fb.group({
+      name: ['', [Validators.required]],
+      piva: ['', [Validators.required]]
+    }),
+    sellerUser: this.fb.group({
+      name: ['', [Validators.required]],
+      piva: ['', [Validators.required]]
+    }),
+    order: this.fb.group({
+        iva:  ['', [Validators.required]],
+        expense:  ['', [Validators.required]]
+    })
   });
 
   constructor(private invoiceService: InvoiceService, private fb: FormBuilder) {
@@ -63,14 +71,21 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.currentInvoice.order.items.push(newOrderItem);
   }
 
+  newItem(){
+    this.invoiceForm.reset;
+  }
+
   save(): void {
-    console.log("saving");
-    const number = this.invoiceForm.get(['number'])!.value;
-    const year = this.invoiceForm.get(['year'])!.value;
-    const id = number + "-" + year;
-    let toSaveInvoice = new SimpleInvoice(number, year);
-    console.log(toSaveInvoice);
-    this.invoiceService.addd(toSaveInvoice).subscribe(
+    console.log(this.invoiceForm.value);
+    if(this.invoiceForm.get(['id']) == null){
+      const number = this.invoiceForm.get(['number'])!.value;
+      const year = this.invoiceForm.get(['year'])!.value;
+      this.invoiceForm.get(['id'])?.setValue(number + "-" + year);
+    }
+    // seller = this.invoiceForm.get(['sellerUser'])!.value
+    // let invoice = new Invoice(id, number, year, this.invoiceForm.get(['sellerUser'])!.value);
+    // console.log(invoice);
+    this.invoiceService.add(this.invoiceForm.value).subscribe(
       (response: void) => {
         this.getInvoices();
       },

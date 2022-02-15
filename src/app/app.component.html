@@ -74,20 +74,12 @@
                           </thead>
                           <tbody>
                           <tr *ngIf="currentInvoice!=null">
-                            <td><input
-                              type="number"
-                              class="form-control"
-                              id="id"
-                              formControlName="id"
-                              value="{{currentInvoice.id}"
-                              #number
-                            ></td>
+                            <td>{{currentInvoice.id}}</td>
                             <td><input
                               type="number"
                               class="form-control"
                               id="number"
                               formControlName="number"
-                              value="{{currentInvoice.number}"
                               #number
                             ></td>
                             <td><input
@@ -95,47 +87,41 @@
                               class="form-control"
                               id="year"
                               formControlName="year"
-                              value="{{currentInvoice.year}}"
                               #year
                             /></td>
-                            <td><input
+                            <td><form formGroupName="sellerUser"><input
                               type="text"
                               class="form-control"
-                              id="sellerName"
-                              formControlName="sellerName"
-                              value="{{currentInvoice.sellerUser.name}}"
-                              #sellerName
-                            /></td>
-                            <td><input
+                              id="name"
+                              formControlName="name"
+                              #name
+                            /></form></td>                          
+                            <td><form formGroupName="sellerUser"><input
                               type="text"
                               class="form-control"
-                              id="sellerPiva"
-                              formControlName="sellerPiva"
-                              value="{{currentInvoice.sellerUser.piva}}"
+                              id="sellePiva"
+                              formControlName="piva"
                               #sellerPiva
-                            /></td>
-                            <td><input
-                              type="text"
-                              class="form-control"
-                              id="buyerName"
-                              formControlName="buyerName"
-                              value="{{currentInvoice.buyerUser.name}}"
-                              #buyerName
-                            /></td>
-                            <td><input
-                              type="text"
-                              class="form-control"
-                              id="buyerPiva"
-                              formControlName="buyerPiva"
-                              value="{{currentInvoice.buyerUser.piva}}"
-                              #buyerPiva
-                            /></td>
+                            /></form></td>
+                              <td><form formGroupName="buyerUser"><input
+                                type="text"
+                                class="form-control"
+                                id="buyerName"
+                                formControlName="name"
+                                #buyerName
+                              /></form></td>
+                              <td><form formGroupName="buyerUser"><input
+                                type="text"
+                                class="form-control"
+                                id="nuyerPiva"
+                                formControlName="piva"
+                                #buyerPiva
+                              /></form></td>
                             <td><input
                               type="text"
                               class="form-control"
                               id="emissionDate"
                               formControlName="emissionDate"
-                              value="{{currentInvoice.emissionDate}}"
                               #paymentMethod
                             /></td>
                             <td><input
@@ -143,21 +129,20 @@
                               class="form-control"
                               id="paymentMethod"
                               formControlName="paymentMethod"
-                              value="{{currentInvoice.paymentMethod}}"
                               #paymentMethod
                             /></td>
                             <td><input
                               type="checkbox"
+                              [checked]="currentInvoice.installments"
                               class="form-control"
                               id="installments"
                               formControlName="installments"
-                              value="{{currentInvoice.installments}}"
                               #installments
                             ></td>
                           </tr>
                           </tbody>
                         </table>
-                        <table class="table custom-table m-0">
+                        <table class="table custom-table m-0" *ngIf="currentInvoice != null">
                           <thead>
                           <tr>
                             <th>Product ID</th>
@@ -169,23 +154,34 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr *ngIf="currentInvoice != null">
+                          <tr *ngFor="let item of currentInvoice.order.items">
+                            <td>{{item.product.name}}</td>
+                            <td>{{item.product.price | currency}}</td>
+                            <td>{{item.product.iva}}</td>
+                            <td>{{item.pieces}}</td>
+                            <td>{{item.ivaExpense | currency}}</td>
+                            <td>{{item.totalExpense | currency}}</td>
+                          </tr>
+                          <tr>
+                            <td colspan="4"></td>
+                            <td>
+                              <h5 class="text-success"><strong>{{currentInvoice.order.expense | currency}}</strong></h5>
+                            </td>
+                            <td>
+                              <h5 class="text-success"><strong>{{currentInvoice.order.expense | currency}}</strong></h5>
+                            </td>
                           </tr>
                           </tbody>
                         </table>
-                        <!--                        [disabled]="invoiceForm.invalid"-->
                         <button type="submit" class="btn btn-primary" data-cy="submit">Save</button>
-                        <button (click)="addItem()" class="btn btn-primary">AddItems</button>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-
               <div class="invoice-footer">
                 GVG piva: xy123456789
               </div>
-
             </div>
           </div>
         </div>
